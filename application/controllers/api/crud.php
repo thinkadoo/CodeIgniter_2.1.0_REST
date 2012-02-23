@@ -16,56 +16,53 @@ class Crud extends REST_Controller
         $this->load->model('Users_model','',TRUE);
     }
 
-/*    function add()
+    function add_get()
     {
-        // set empty default form field values
-        $this->_set_fields();
-        // set validation properties
-        $this->_set_rules();
+            // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/add/name/BooooB/email/boobgmail.com
+            $person = array(
+                'name' => $this->get('name'),
+                'email' => $this->get('email')
+            );
+            $id = $this->Users_model->save($person);
 
-        // set common properties
-        $data['title'] = 'Add new person';
-        $data['message'] = '';
-        $data['action'] = site_url('person/addPerson');
-        $data['link_back'] = anchor('person/index/','Back to list of persons',array('class'=>'back'));
 
-        // load view
-        $this->load->view('personEdit', $data);
-    }
+        $person = $this->Users_model->get_by_id($this->get('id'))->row();
 
-    function addPerson()
-    {
-        // set common properties
-        $data['title'] = 'Add new person';
-        $data['action'] = site_url('person/addPerson');
-        $data['link_back'] = anchor('person/index/','Back to list of persons',array('class'=>'back'));
-
-        // set empty default form field values
-        $this->_set_fields();
-        // set validation properties
-        $this->_set_rules();
-
-        // run validation
-        if ($this->form_validation->run() == FALSE)
+        if($person)
         {
-            $data['message'] = '';
+            $this->response($person, 200); // 200 being the HTTP response code
         }
+
         else
         {
-            // save data
-            $person = array('name' => $this->input->post('name'),
-                'gender' => $this->input->post('gender'),
-                'dob' => date('Y-m-d', strtotime($this->input->post('dob'))));
-            $id = $this->Person_model->save($person);
-
-            // set user message
-            $data['message'] = '<div class="success">add new person success</div>';
+            $this->response(array('error' => 'User could not be found'), 404);
         }
 
-        // load view
-        $this->load->view('personEdit', $data);
-    }*/
+    }
 
+    function save_get()
+    {
+            // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/save/id/54/name/SSSSSSSSSSSSSSSSSS/email/boobgmail.com
+            $person = array(
+                'name' => $this->get('name'),
+                'email' => $this->get('email')
+            );
+            $id = $this->Users_model->update($this->get('id'),$person);
+
+
+        $person = $this->Users_model->get_by_id($this->get('id'))->row();
+
+        if($person)
+        {
+            $this->response($person, 200); // 200 being the HTTP response code
+        }
+
+        else
+        {
+            $this->response(array('error' => 'User could not be found'), 404);
+        }
+
+    }
 
     function user_get()
     {
@@ -124,7 +121,40 @@ class Crud extends REST_Controller
         }
     }
 
-/*    function update($id)
+    function delete_get($id)
+    {
+        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/delete/id/1
+
+        $users = $this->Users_model->delete($this->get('id'))->result();
+
+        if($users)
+        {
+            $this->response($users, 200); // 200 being the HTTP response code
+        }
+
+        else
+        {
+            $this->response(array('error' => 'User could not be found'), 404);
+        }
+    }
+
+/*  function add()
+    {
+        // set empty default form field values
+        $this->_set_fields();
+        // set validation properties
+        $this->_set_rules();
+
+        // set common properties
+        $data['title'] = 'Add new person';
+        $data['message'] = '';
+        $data['action'] = site_url('person/addPerson');
+        $data['link_back'] = anchor('person/index/','Back to list of persons',array('class'=>'back'));
+
+        // load view
+        $this->load->view('personEdit', $data);
+    }
+    function update($id)
     {
         // set validation properties
         $this->_set_rules();
@@ -178,15 +208,6 @@ class Crud extends REST_Controller
 
         // load view
         $this->load->view('personEdit', $data);
-    }
-
-    function delete($id)
-    {
-        // delete person
-        $this->Person_model->delete($id);
-
-        // redirect to person list page
-        redirect('person/index/','refresh');
     }
 
     // set empty default form field values
