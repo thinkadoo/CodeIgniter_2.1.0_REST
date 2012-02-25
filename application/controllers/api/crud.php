@@ -42,7 +42,7 @@ class Crud extends REST_Controller
 
     function user_put()
     {
-        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/add/name/BooooB/email/boobgmail.com
+        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/user/format/json
         $person = array(
             'name' => $this->put('name'),
             'email' => $this->put('email')
@@ -90,7 +90,7 @@ class Crud extends REST_Controller
 
     function user_post()
     {
-        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/save/id/54/name/SSSSSSSSSSSSSSSSSS/email/boobgmail.com
+        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/user/format/json
         $person = array(
             'name' => $this->post('name'),
             'email' => $this->post('email')
@@ -125,7 +125,7 @@ class Crud extends REST_Controller
 
     function user_delete()
     {
-        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/user/id/48/format/json
+        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/user/id/52/format/json
 
         $user = $this->Users_model->delete($this->get('id'));
 
