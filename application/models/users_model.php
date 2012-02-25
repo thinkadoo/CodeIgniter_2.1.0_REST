@@ -48,6 +48,7 @@ class Users_model extends CI_Model {
     {
         $this->db->where('id', $id);
         $this->db->update($this->users, $users);
+        return $id;
     }
 
 
@@ -55,6 +56,7 @@ class Users_model extends CI_Model {
     {
         $this->db->where('id', $id);
         $this->db->delete($this->users);
+        return $id;
     }
 
 

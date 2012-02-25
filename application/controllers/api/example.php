@@ -6,8 +6,6 @@ class Example extends REST_Controller
 {
 	function user_get()
     {
-        $this->load->library('rb');
-
         if(!$this->get('id'))
         {
         	$this->response(NULL, 400);
@@ -35,7 +33,6 @@ class Example extends REST_Controller
 
     function allusers_get()
     {
-        $this->load->library('rb');
 
         // $user = $this->some_model->getSomething( $this->getAll() );
         $users = array(
@@ -59,7 +56,6 @@ class Example extends REST_Controller
     
     function user_post()
     {
-        $this->load->library('rb');
 
         //$this->some_model->updateUser( $this->get('id') );
         $message = array('id' => $this->get('id'), 'name' => $this->post('name'), 'email' => $this->post('email'), 'message' => 'ADDED!');
@@ -77,7 +73,6 @@ class Example extends REST_Controller
     
     function users_get()
     {
-        $this->load->library('rb');
 
         //$users = $this->some_model->getSomething( $this->get('limit') );
         $users = array(

@@ -16,7 +16,7 @@ class Crud extends REST_Controller
         $this->load->model('Users_model','',TRUE);
     }
 
-    function add_get()
+/*    function add_get()
     {
             // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/add/name/BooooB/email/boobgmail.com
             $person = array(
@@ -26,7 +26,31 @@ class Crud extends REST_Controller
             $id = $this->Users_model->save($person);
 
 
-        $person = $this->Users_model->get_by_id($this->get('id'))->row();
+        $person = $this->Users_model->get_by_id($id)->row();
+
+        if($person)
+        {
+            $this->response($person, 200); // 200 being the HTTP response code
+        }
+
+        else
+        {
+            $this->response(array('error' => 'User could not be found'), 404);
+        }
+
+    }*/
+
+    function user_put()
+    {
+        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/add/name/BooooB/email/boobgmail.com
+        $person = array(
+            'name' => $this->put('name'),
+            'email' => $this->put('email')
+        );
+        $id = $this->Users_model->save($person);
+
+
+        $person = $this->Users_model->get_by_id($id)->row();
 
         if($person)
         {
@@ -40,7 +64,7 @@ class Crud extends REST_Controller
 
     }
 
-    function save_get()
+/*    function save_get()
     {
             // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/save/id/54/name/SSSSSSSSSSSSSSSSSS/email/boobgmail.com
             $person = array(
@@ -62,6 +86,56 @@ class Crud extends REST_Controller
             $this->response(array('error' => 'User could not be found'), 404);
         }
 
+    }*/
+
+    function user_post()
+    {
+        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/save/id/54/name/SSSSSSSSSSSSSSSSSS/email/boobgmail.com
+        $person = array(
+            'name' => $this->post('name'),
+            'email' => $this->post('email')
+        );
+
+        $id = $this->Users_model->update($this->post('id'),$person);
+
+        $person = $this->Users_model->get_by_id($this->post('id'))->row();
+
+        if($person)
+        {
+            $this->response($person, 200); // 200 being the HTTP response code
+        }
+
+        else
+        {
+            $this->response(array('error' => 'User could not be found'), 404);
+        }
+
+    }
+
+    /*    function delete_get()
+    {
+        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/delete/id/49/format/json
+
+        $users = $this->Users_model->delete($this->get('id'));
+        $message = array('id' => $this->get('id'), 'message' => 'DELETED!');
+
+        $this->response($message, 200); // 200 being the HTTP response code
+
+    }*/
+
+    function user_delete()
+    {
+        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/user/id/48/format/json
+
+        $user = $this->Users_model->delete($this->get('id'));
+
+        $message = array
+        (
+            'user' => $user,
+            'message' => 'DELETED!'
+        );
+
+        $this->response($message, 200); // 200 being the HTTP response code
     }
 
     function user_get()
@@ -121,130 +195,4 @@ class Crud extends REST_Controller
         }
     }
 
-    function delete_get($id)
-    {
-        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/delete/id/1
-
-        $users = $this->Users_model->delete($this->get('id'))->result();
-
-        if($users)
-        {
-            $this->response($users, 200); // 200 being the HTTP response code
-        }
-
-        else
-        {
-            $this->response(array('error' => 'User could not be found'), 404);
-        }
-    }
-
-/*  function add()
-    {
-        // set empty default form field values
-        $this->_set_fields();
-        // set validation properties
-        $this->_set_rules();
-
-        // set common properties
-        $data['title'] = 'Add new person';
-        $data['message'] = '';
-        $data['action'] = site_url('person/addPerson');
-        $data['link_back'] = anchor('person/index/','Back to list of persons',array('class'=>'back'));
-
-        // load view
-        $this->load->view('personEdit', $data);
-    }
-    function update($id)
-    {
-        // set validation properties
-        $this->_set_rules();
-
-        // prefill form values
-        $person = $this->Person_model->get_by_id($id)->row();
-        $this->form_data->id = $id;
-        $this->form_data->name = $person->name;
-        $this->form_data->gender = strtoupper($person->gender);
-        $this->form_data->dob = date('d-m-Y',strtotime($person->dob));
-
-        // set common properties
-        $data['title'] = 'Update person';
-        $data['message'] = '';
-        $data['action'] = site_url('person/updatePerson');
-        $data['link_back'] = anchor('person/index/','Back to list of persons',array('class'=>'back'));
-
-        // load view
-        $this->load->view('personEdit', $data);
-    }
-
-    function updatePerson()
-    {
-        // set common properties
-        $data['title'] = 'Update person';
-        $data['action'] = site_url('person/updatePerson');
-        $data['link_back'] = anchor('person/index/','Back to list of persons',array('class'=>'back'));
-
-        // set empty default form field values
-        $this->_set_fields();
-        // set validation properties
-        $this->_set_rules();
-
-        // run validation
-        if ($this->form_validation->run() == FALSE)
-        {
-            $data['message'] = '';
-        }
-        else
-        {
-            // save data
-            $id = $this->input->post('id');
-            $person = array('name' => $this->input->post('name'),
-                'gender' => $this->input->post('gender'),
-                'dob' => date('Y-m-d', strtotime($this->input->post('dob'))));
-            $this->Person_model->update($id,$person);
-
-            // set user message
-            $data['message'] = '<div class="success">update person success</div>';
-        }
-
-        // load view
-        $this->load->view('personEdit', $data);
-    }
-
-    // set empty default form field values
-    function _set_fields()
-    {
-        $this->form_data->id = '';
-        $this->form_data->name = '';
-        $this->form_data->gender = '';
-        $this->form_data->dob = '';
-    }
-
-    // validation rules
-    function _set_rules()
-    {
-        $this->form_validation->set_rules('name', 'Name', 'trim|required');
-        $this->form_validation->set_rules('gender', 'Gender', 'trim|required');
-        $this->form_validation->set_rules('dob', 'DoB', 'trim|required|callback_valid_date');
-
-        $this->form_validation->set_message('required', '* required');
-        $this->form_validation->set_message('isset', '* required');
-        $this->form_validation->set_message('valid_date', 'date format is not valid. dd-mm-yyyy');
-        $this->form_validation->set_error_delimiters('<p class="error">', '</p>');
-    }
-
-    // date_validation callback
-    function valid_date($str)
-    {
-        //match the format of the date
-        if (preg_match ("/^([0-9]{2})-([0-9]{2})-([0-9]{4})$/", $str, $parts))
-        {
-            //check weather the date is valid of not
-            if(checkdate($parts[2],$parts[1],$parts[3]))
-                return true;
-            else
-                return false;
-        }
-        else
-            return false;
-    }*/
 }
