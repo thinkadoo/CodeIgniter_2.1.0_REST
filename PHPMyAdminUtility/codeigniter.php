@@ -678,6 +678,7 @@ class TableIndexes
 			$lines[] = "   {";
 			$lines[] = "        \$this->db->where('id', \$id);";
 			$lines[] = "        \$this->db->update(\$this->".$table.", \$".$table.");";
+            $lines[] = "        return \$id;";
 			$lines[] = "   }";
 			
 			$lines[] = "\n";
@@ -686,6 +687,7 @@ class TableIndexes
 			$lines[] = "   {";
 			$lines[] = "        \$this->db->where('id', \$id);";
 			$lines[] = "        \$this->db->delete(\$this->".$table.");";
+            $lines[] = "        return \$id;";
 			$lines[] = "   }";		
 			
 			$lines[] = "\n";

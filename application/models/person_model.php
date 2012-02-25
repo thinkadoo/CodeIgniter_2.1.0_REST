@@ -48,6 +48,7 @@ class Person_model extends CI_Model {
     {
         $this->db->where('id', $id);
         $this->db->update($this->tbl_person, $tbl_person);
+        return $id;
     }
 
 
@@ -55,6 +56,7 @@ class Person_model extends CI_Model {
     {
         $this->db->where('id', $id);
         $this->db->delete($this->tbl_person);
+        return $id;
     }
 
 
