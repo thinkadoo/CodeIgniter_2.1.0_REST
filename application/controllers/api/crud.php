@@ -11,43 +11,18 @@ class Crud extends REST_Controller
     {
         parent::__construct();
 
-        // load model
-        $this->load->model('Person_model','',TRUE);
         $this->load->model('Users_model','',TRUE);
     }
-
-/*    function add_get()
-    {
-            // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/add/name/BooooB/email/boobgmail.com
-            $person = array(
-                'name' => $this->get('name'),
-                'email' => $this->get('email')
-            );
-            $id = $this->Users_model->save($person);
-
-
-        $person = $this->Users_model->get_by_id($id)->row();
-
-        if($person)
-        {
-            $this->response($person, 200); // 200 being the HTTP response code
-        }
-
-        else
-        {
-            $this->response(array('error' => 'User could not be found'), 404);
-        }
-
-    }*/
 
     function user_put()
     {
         // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/user/format/json
-        $person = array(
+        $persondata = array(
             'name' => $this->put('name'),
             'email' => $this->put('email')
         );
-        $id = $this->Users_model->save($person);
+
+        $id = $this->Users_model->save($persondata);
 
 
         $person = $this->Users_model->get_by_id($id)->row();
@@ -63,30 +38,6 @@ class Crud extends REST_Controller
         }
 
     }
-
-/*    function save_get()
-    {
-            // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/save/id/54/name/SSSSSSSSSSSSSSSSSS/email/boobgmail.com
-            $person = array(
-                'name' => $this->get('name'),
-                'email' => $this->get('email')
-            );
-            $id = $this->Users_model->update($this->get('id'),$person);
-
-
-        $person = $this->Users_model->get_by_id($this->get('id'))->row();
-
-        if($person)
-        {
-            $this->response($person, 200); // 200 being the HTTP response code
-        }
-
-        else
-        {
-            $this->response(array('error' => 'User could not be found'), 404);
-        }
-
-    }*/
 
     function user_post()
     {
@@ -112,17 +63,6 @@ class Crud extends REST_Controller
 
     }
 
-    /*    function delete_get()
-    {
-        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/delete/id/49/format/json
-
-        $users = $this->Users_model->delete($this->get('id'));
-        $message = array('id' => $this->get('id'), 'message' => 'DELETED!');
-
-        $this->response($message, 200); // 200 being the HTTP response code
-
-    }*/
-
     function user_delete()
     {
         // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/user/id/52/format/json
@@ -135,7 +75,15 @@ class Crud extends REST_Controller
             'message' => 'DELETED!'
         );
 
-        $this->response($message, 200); // 200 being the HTTP response code
+        if($user)
+        {
+            $this->response($message, 200); // 200 being the HTTP response code
+        }
+
+        else
+        {
+            $this->response(array('error' => 'User could not be found'), 404);
+        }
     }
 
     function user_get()
@@ -194,5 +142,64 @@ class Crud extends REST_Controller
             $this->response(array('error' => 'User could not be found'), 404);
         }
     }
+
+    /*    function add_get()
+    {
+            // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/add/name/BooooB/email/boobgmail.com
+            $person = array(
+                'name' => $this->get('name'),
+                'email' => $this->get('email')
+            );
+            $id = $this->Users_model->save($person);
+
+
+        $person = $this->Users_model->get_by_id($id)->row();
+
+        if($person)
+        {
+            $this->response($person, 200); // 200 being the HTTP response code
+        }
+
+        else
+        {
+            $this->response(array('error' => 'User could not be found'), 404);
+        }
+
+    }*/
+
+    /*    function save_get()
+    {
+            // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/save/id/54/name/SSSSSSSSSSSSSSSSSS/email/boobgmail.com
+            $person = array(
+                'name' => $this->get('name'),
+                'email' => $this->get('email')
+            );
+            $id = $this->Users_model->update($this->get('id'),$person);
+
+
+        $person = $this->Users_model->get_by_id($this->get('id'))->row();
+
+        if($person)
+        {
+            $this->response($person, 200); // 200 being the HTTP response code
+        }
+
+        else
+        {
+            $this->response(array('error' => 'User could not be found'), 404);
+        }
+
+    }*/
+
+    /*    function delete_get()
+    {
+        // http://localhost/CodeIgniter_2.1.0_REST/index.php/api/crud/delete/id/49/format/json
+
+        $users = $this->Users_model->delete($this->get('id'));
+        $message = array('id' => $this->get('id'), 'message' => 'DELETED!');
+
+        $this->response($message, 200); // 200 being the HTTP response code
+
+    }*/
 
 }
