@@ -6,9 +6,7 @@ This project is all about CodeIgniter RESTful services.
 
 ## PHPMyAdmin Utility
 
-CodeIgniter Models Export for PHPMyAdmin
-
-http://cl.ly/ES77
+CodeIgniter Models and CRUD Controllers Export for PHPMyAdmin
 
 Drop this into:
 
