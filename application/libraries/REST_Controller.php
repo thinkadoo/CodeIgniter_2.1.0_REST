@@ -173,7 +173,7 @@ class REST_Controller extends CI_Controller {
         // Use keys for this method?
         $use_key = ! (isset($this->methods[$controller_method]['key']) AND $this->methods[$controller_method]['key'] == FALSE);
 
-        // Get that useless shitty key out of here
+        // Validate the key
         if (config_item('rest_enable_keys') AND $use_key AND $this->_allow === FALSE)
         {
             if (config_item('rest_enable_logging') AND $log_method)
