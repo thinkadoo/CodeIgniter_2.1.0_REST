@@ -1,0 +1,8 @@
+codeigniter-restserver-api-key
+
+Autoload DataBase
+Create all log, key, etc. tables required by rest.php conf
+Set var to look for key "X-API-KEY"
+USE:
+http://localhost/redbeandatabase/api/book/getall/format/json/X-API-KEY/qwedsfgtr4567890oiujhygtfdret6567890kjgf
+http://localhost/redbeandatabase/api/user/get/id/2/format/json/X-API-KEY/qwedsfgtr4567890oiujhygtfdret6567890kjgf
